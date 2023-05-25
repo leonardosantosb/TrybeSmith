@@ -1,5 +1,5 @@
 export type User = {
-  id: 'fake';
+  id: 'teste';
   username: 'fake';
   vocation: 'fake';
   level: 'fake';
