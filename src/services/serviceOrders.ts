@@ -1,15 +1,21 @@
+import { Product } from 'src/types/Product';
 import OrderModel from '../database/models/order.model';
 
-import Product from '../database/models/product.model';
-// import { Order } from '../types/Order';
+import productModel from '../database/models/product.model';
 
 async function getAll(): Promise<unknown> {
   const getOrder = await OrderModel.findAll({
     include: [
-      { model: Product, as: 'productIds', attributes: ['id'] },
+      { model: productModel, as: 'productIds', attributes: ['id'] },
     ], 
   });
-  return getOrder;
+  return getOrder.map((order) => {
+    const { id, userId, productIds } = order.toJSON();
+    const formatando = (productIds as Product[] | undefined)
+      ?.map((product) => product.id) || [];
+    return { id, userId, productIds: formatando };
+  });
+  // return jeitoCerto;
 }
 
 export default {
